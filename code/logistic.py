@@ -159,6 +159,7 @@ class Logistic(object):
             # check_stay = checkio(xwait, wald_score, wald_pvalue)
             # check_stay.remove()
             # print(wald_test_res)
+            wald_test_res.drop("const", inplace=True)
             max_pvalue = wald_test_res['P>chi2'][0]
             var_remove = wald_test_res.index[0]
 
@@ -195,7 +196,10 @@ class Logistic(object):
             self.slstay = float(kwargs['slstay'])
         else:
             self.slstay  = 0.05  # default
-            
+
+        print(self.slstay)
+        print(self.slentry)
+        print("&"* 30)
         const = ['const']
         xenter = list()
         xwait = self.xcols
@@ -208,10 +212,13 @@ class Logistic(object):
                             family = sm.families.Binomial(link = sm.families.links.logit())).fit(disp=0)
                 print(logitmodel.summary())
             else:
-                logitmodel = self.backward(xvars=xenter)
+                logitmodel = self.backward(xvars=xenter, slentry=self.slentry, slstay=self.slstay)
                 wald_test_res = logitmodel.wald_test_terms()
                 wald_test_res = wald_test_res.summary_frame()
                 xenter = [var for var in wald_test_res.index if var != 'const']
+                if xin not in xenter:
+                    print("Note: Model building terminates because the last effect entered is removed by the Wald statistic criterion.")
+                    break
             wald_score  = list()
             wald_pvalue = list()
             for xvar in xwait:
