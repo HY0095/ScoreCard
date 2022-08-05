@@ -196,10 +196,7 @@ class Logistic(object):
             self.slstay = float(kwargs['slstay'])
         else:
             self.slstay  = 0.05  # default
-
-        print(self.slstay)
-        print(self.slentry)
-        print("&"* 30)
+        
         const = ['const']
         xenter = list()
         xwait = self.xcols
@@ -263,15 +260,14 @@ class checkio(object):
     def enter(self):
         print("              Analysis of Variables Eligible for Entry  ")
         print("==============================================================================")
-        print("\t%5s\t \t%5s\t \t%5s\t" % ("variable", "Wald Chi-square", "Pr>ChiSq"))
+        print("  %5s\t \t%5s\t   \t  \t%5s\t" % ("variable", "Wald Chi-square", "Pr>ChiSq"))
         for i,v in enumerate(self.xwait):
-            print("    \t%5s\t             \t%10s\t     \t%10s\t" % (v, self.score[i], self.pvalue[i]))
+            print("  %5s\t             \t%10s\t     \t%10s\t" % (v, self.score[i], self.pvalue[i]))
         print(" ") 
     def remove(self):
         print("              Analysis of Variables Eligible for Remove  ")
         print("==============================================================================")
-        print("\t%5s\t \t%5s\t \t%5s\t" % ("variable", "Wald Chi-square", "Pr>ChiSq"))
+        print("  %5s\t \t%5s\t   \t  \t%5s\t" % ("variable", "Wald Chi-square", "Pr>ChiSq"))
         for i,v in enumerate(self.xwait):
-            print("    \t%5s\t             \t%10s\t     \t%10s\t" % (v, self.score[i], self.pvalue[i]))
+            print("  %5s\t             \t%10s\t     \t%10s\t" % (v, self.score[i], self.pvalue[i]))
         print(" ")
-        
