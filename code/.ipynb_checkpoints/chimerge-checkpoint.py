@@ -5,20 +5,19 @@ from scipy import stats
 from utils import cal_woe_iv
 
 
-def ChiMerge(dataset, xname, target, binnum=5, maxcut=50):
+def ChiMerge(dataset, xname, target, binnum=5, maxcut=50, min_leaf_size=200):
     '''
     binnum: the number of bins output
     maxcut: initial bins number 
     '''
-    
-    dataset=dataset[[xname,target]]
+
     for val in list(set(dataset[xname])):
         dataset.loc[dataset[xname] == val, 'CutPoint'] = len(dataset.loc[(dataset[xname] == val) & (dataset[target] == 1)])/len(dataset.loc[dataset[xname] == val])
     # equifrequent cut the var into maxcut bins
     
-    dist_vals = len(set(dataset[xname]))
+    dist_x_vals = len(set(dataset[xname]))
     
-    if dist_vals > maxcut:
+    if dist_x_vals > maxcut:
         dataset["CutPoint"], breaks=pd.qcut(dataset['CutPoint'], q=maxcut, duplicates="drop", retbins=True)
 
     crosstab_dt = pd.crosstab(dataset['CutPoint'], dataset['target'])
@@ -40,6 +39,5 @@ def ChiMerge(dataset, xname, target, binnum=5, maxcut=50):
         crosstab_dt = crosstab_dt.drop(labels=[i])
         crosstab_dt = crosstab_dt.reset_index(drop=True)
 
-    return cal_woe_iv(crosstab_dt)                          
+    return cal_woe_iv(crosstab_dt)
     
-

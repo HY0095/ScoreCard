@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import scipy
 from scipy import stats
-from utils import cal_woe_iv
+from Entropy import cal_woe_iv
 
 
 def ChiMerge(dataset, xname, target, binnum=5, maxcut=50):
@@ -42,4 +42,3 @@ def ChiMerge(dataset, xname, target, binnum=5, maxcut=50):
 
     return cal_woe_iv(crosstab_dt)                          
     
-
